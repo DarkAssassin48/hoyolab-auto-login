@@ -45,7 +45,9 @@ You can have the script notify on a Discord channel via webhook. On any channel 
 
 `Channel Settings > Integrations > Webhooks > New Webhook`
 
-You can also choose to use existing one by clicking on `Copy Webhook URL`
+You can also choose to use existing one by clicking on `Copy Webhook URL`.
+
+You can also configure the script to notify (ping) your Discord ID in case of a login failure. To do this, append `DISCORD_ID=1234567890; rest_of_cookie=; ...` at the start your cookie.
 
 ![image](https://raw.githubusercontent.com/raidensakura/hoyolab-auto-login/f0e36c3d39f6e9363b3c772e63ded57c5fbae8c8/images/5.png)
 
@@ -55,6 +57,15 @@ You can also choose to use existing one by clicking on `Copy Webhook URL`
 <summary><b>(Optional) Whether the script should (<code>RUN_ONCE</code>) or continuously</b></summary>
 
 This should either be left unset, or a value of `True`. Set it to `True` if you have an external scheduler (like CRON) to automatically start the script at certain time. The script will run continuously as a process when this is unset.
+
+</details>
+
+<details>
+<summary><b>(Optional) <code>SCHEDULE</code> on what time of the day the script will run at</b></summary>
+
+This should either be left unset, or a valid time format (`00:00` to `23:59`).
+You can also additionally specify the timezone in your env or leave the default as UTC, ex: `TIMEZONE=Asia/Kuala_Lumpur`.
+Refer to [List of tz database time zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 </details>
 
@@ -145,15 +156,26 @@ Add a `#` between your cookies.<br><br>
 Example:  
 ```COOKIE1#COOKIE2#COOKIE3```
 
+- **My `cookie_token` is missing!**  
+Try logging out and logging back in into your Hoyolab account. If it still doesn't work, try getting it from the code redemption or daily sign-in webpage instead:
+  * Genshin Impact - [Code Redemption](https://genshin.hoyoverse.com/en/gift) | [Daily Sign-in](https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481)
+  * Honkai: Star Rail - [Code Redemption](https://hsr.hoyoverse.com/gift) | [Daily Sign-in](https://act.hoyolab.com/bbs/event/signin/hkrpg/index.html?act_id=e202303301540311)
+  * Honkai Impact 3 - [Daily Sign-in](https://act.hoyolab.com/bbs/event/signin-bh3/index.html?act_id=e202110291205111)
+  * Tears of Themis - [Daily Sign-in](https://act.hoyolab.com/bbs/event/signin/nxx/index.html?act_id=e202202281857121)
+
 - **Why aren't you using GitHub Actions?**  
 There has been multiple repositories getting taken down due to violation of GitHub's Terms of Service. Unfortunately, due to the nature of this script (which counts as account automation), it's better safe than sorry. Again, as a disclaimer, **I take no responsibility of the security and safety of your account by using this script**.
 
 - **I need specific help**  
 You are free to join my [Discord server](https://dsc.gg/transience) and post your question there. I'll reply when I'm free and try to help from what I know.
 
+## Updating
+
+If you're on a fork and want to keep it automatically updated, install and configure the [Pull App](https://github.com/apps/pull) for your repository.
+
 ## Contributing
 
-When suggesting changes, please format your code with [black](https://pypi.org/project/black/) and [isort](https://pypi.org/project/isort/).
+When suggesting changes, please format your code with [black](https://pypi.org/project/black/) and [ruff](https://pypi.org/project/ruff/).
 
 Install dependencies and activate the pipenv with:
 
@@ -166,7 +188,12 @@ For formatting:
 
 ```python
 pipenv install --dev
-black . ; isort .
+black . ; ruff .
+```
+
+Or alternatively, you can also install pre-commit hooks which run the linters automatically on every commit
+```python
+pre-commit install
 ```
 
 For testing:
